@@ -1,0 +1,1088 @@
+#! C:/Program Files/Nuke15.1v2/nuke-15.1.2.dll -nx
+version 15.1 v2
+define_window_layout_xml {<?xml version="1.0" encoding="UTF-8"?>
+<layout version="1.0">
+    <window x="-1" y="-8" w="2560" h="1369" maximized="1" screen="0">
+        <splitter orientation="1">
+            <split size="40"/>
+            <dock id="" hideTitles="1" activePageId="Toolbar.1">
+                <page id="Toolbar.1"/>
+            </dock>
+            <split size="1897" stretch="1"/>
+            <splitter orientation="2">
+                <split size="778"/>
+                <dock id="" activePageId="Viewer.1">
+                    <page id="Viewer.1"/>
+                </dock>
+                <split size="549"/>
+                <dock id="" activePageId="DAG.1" focus="true">
+                    <page id="DAG.1"/>
+                    <page id="Curve Editor.1"/>
+                    <page id="DopeSheet.1"/>
+                </dock>
+            </splitter>
+            <split size="615"/>
+            <dock id="" activePageId="Properties.1">
+                <page id="Properties.1"/>
+                <page id="uk.co.thefoundry.backgroundrenderview.1"/>
+                <page id="Scenegraph.1"/>
+            </dock>
+        </splitter>
+    </window>
+</layout>
+}
+Root {
+ inputs 0
+ name C:/Users/WORKSTATION/Desktop/TRIPLANAR_TOOL_v004.nk
+ frame 10
+ lock_range true
+ format "2048 1556 0 0 2048 1556 1 2K_Super_35(full-ap)"
+ proxy_type scale
+ proxy_format "1024 778 0 0 1024 778 1 1K_Super_35(full-ap)"
+ colorManagement Nuke
+ workingSpaceLUT linear
+ monitorLut sRGB
+ monitorOutLUT rec709
+ int8Lut sRGB
+ int16Lut sRGB
+ logLut Cineon
+ floatLut linear
+}
+StickyNote {
+ inputs 0
+ name StickyNote2
+ label 1-100
+ note_font_size 30
+ xpos -62
+ ypos -77
+}
+Noise {
+ inputs 0
+ gain 0.54
+ gamma 0.365
+ center {1024 778}
+ name Noise2
+ xpos -965
+ ypos 503
+}
+Transform {
+ scale 8
+ center {1024 778}
+ name Transform8
+ xpos -965
+ ypos 579
+}
+Dot {
+ name Dot11
+ xpos -931
+ ypos 679
+}
+CheckerBoard2 {
+ inputs 0
+ boxsize 50
+ centerlinewidth 0
+ name CheckerBoard4
+ xpos -824
+ ypos 203
+}
+Shuffle2 {
+ fromInput1 {{0} B}
+ fromInput2 {{0} B}
+ mappings "4 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2 white -1 -1 rgba.alpha 0 3"
+ name Shuffle7
+ xpos -824
+ ypos 352
+}
+Transform {
+ scale 8
+ center {1024 778}
+ name Transform2
+ xpos -824
+ ypos 389
+}
+Dot {
+ name Dot10
+ xpos -790
+ ypos 625
+}
+ColorWheel {
+ inputs 0
+ gamma 0.45
+ name ColorWheel2
+ xpos -554
+ ypos 246
+}
+Transform {
+ scale 1.7
+ center {1024 778}
+ name Transform9
+ xpos -554
+ ypos 318
+}
+Crop {
+ box {0 0 2048 1556}
+ reformat true
+ crop false
+ name Crop2
+ xpos -554
+ ypos 342
+}
+Transform {
+ scale 8
+ center {1024 778}
+ name Transform10
+ xpos -554
+ ypos 366
+}
+Dot {
+ name Dot9
+ xpos -520
+ ypos 546
+}
+Camera2 {
+ inputs 0
+ translate {{curve x1 -3.61574173 x100 4.021763802} {curve x1 1.328431845 x100 0.9841157794} {curve x1 4.694727898 x100 4.483808994}}
+ rotate {{curve x1 -6.277982463 x100 -3.207973581} {curve x1 -22.60000996 x100 36.77119766} {curve x1 0 x100 -5.399300824}}
+ focal 16
+ vaperture 13.824
+ name Camera2
+ xpos -212
+ ypos 353
+}
+CheckerBoard2 {
+ inputs 0
+ centerlinewidth 0
+ name CheckerBoard6
+ xpos -58
+ ypos 1
+}
+set N72483c00 [stack 0]
+Cube {
+ uniform_scale 10
+ name Cube3
+ xpos 88
+ ypos 113
+}
+push $N72483c00
+Sphere {
+ rows 100
+ columns 100
+ translate {0 0 -3.579999924}
+ uniform_scale 2
+ name Sphere3
+ xpos -58
+ ypos 127
+}
+Scene {
+ inputs 2
+ name Scene3
+ xpos -48
+ ypos 208
+}
+push 0
+add_layer {P P.NX P.NY P.NZ P.x P.y P.z P.red P.green P.blue P.alpha P.R P.G P.B N.red N.green N.blue pw.g pw.b P.X P.Y P.Z pw.alpha pw.r P.other}
+add_layer {N N.red N.green N.blue N.alpha N.x N.y N.z N.r N.g N.b N.X N.Y N.Z}
+ScanlineRender {
+ inputs 3
+ conservative_shader_sampling false
+ output_shader_vectors true
+ P_channel {P.NX P.NY P.NZ}
+ N_channel {N.red N.green N.blue}
+ name ScanlineRender3
+ xpos -58
+ ypos 374
+}
+Group {
+ inputs 4
+ name TRIPLANAR_PM1
+ xpos -58
+ ypos 676
+ addUserKnob {20 User l TRIPLANAR_PM}
+ addUserKnob {26 ""}
+ addUserKnob {41 in_1 l P: T Shuffle2.in}
+ addUserKnob {41 value l "P mult" +INVISIBLE T Multiply5.value}
+ addUserKnob {41 in l N: T Shuffle1.in}
+ addUserKnob {26 ""}
+ addUserKnob {41 bmain l GRADIENT T Expression4.bmain}
+ addUserKnob {26 ""}
+ addUserKnob {41 mix l NOISE T Merge10.mix}
+ addUserKnob {6 on l "noise on/off" -STARTLINE}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {26 _1 l "" +STARTLINE T "Entagma Triplanar texture Mapping by Christopher Kopic\nReconstruct by Peter Mercell \nversion 0.9"}
+ addUserKnob {26 site l "" +STARTLINE T "<a style=\"color: #999999;\"><a style=\"color: #999999;\" href=\"http://www.petermercell.com\" target=\"_blank\" rel=\"noopener\">www.petermercell.com</a>"}
+}
+ StickyNote {
+  inputs 0
+  name StickyNote6
+  label N
+  note_font_size 100
+  xpos -529
+  ypos -1075
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote7
+  label "P\n+ scale operator"
+  note_font_size 100
+  xpos 908
+  ypos -1407
+ }
+ Noise {
+  inputs 0
+  cliptype none
+  size 1.4
+  zoffset 3.66
+  gamma 0.15
+  center {1024 778}
+  name Noise1
+  xpos 8743
+  ypos -314
+ }
+ Grade {
+  channels rgba
+  whitepoint 0.5
+  multiply 4
+  gamma 5
+  name Grade1
+  xpos 8743
+  ypos -273
+ }
+ Blur {
+  size 6.2
+  name Blur1
+  xpos 8743
+  ypos -232
+ }
+ Dot {
+  name Dot19
+  xpos 8777
+  ypos -156
+ }
+set N9f8ba000 [stack 0]
+ Constant {
+  inputs 0
+  color {{TRIPLANAR_PM1.bmain/2}}
+  name Constant2
+  xpos 9771
+  ypos -323
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  mix {{parent.Merge10.mix}}
+  name Merge15
+  xpos 9771
+  ypos -184
+ }
+ Dot {
+  name Dot16
+  xpos 9805
+  ypos 45
+ }
+set N724cdc00 [stack 0]
+ Input {
+  inputs 0
+  name INPUT
+  xpos -1606
+  ypos -1525
+ }
+ Dot {
+  name Dot25
+  xpos -1572
+  ypos -1442
+ }
+ Dot {
+  name Dot1
+  xpos -1574
+  ypos -1151
+ }
+set N62e64800 [stack 0]
+ Dot {
+  name Dot29
+  xpos -1572
+  ypos -839
+ }
+ Shuffle1 {
+  in {N.red N.green N.blue N.alpha}
+  in2 rgba
+  name Shuffle1
+  xpos -530
+  ypos -842
+ }
+ Dot {
+  name Dot30
+  xpos -496
+  ypos -766
+ }
+set N62e65400 [stack 0]
+ Dot {
+  name Dot12
+  xpos 3013
+  ypos -766
+ }
+set N62e65800 [stack 0]
+ Dot {
+  name Dot32
+  xpos 8035
+  ypos -766
+ }
+set N62e65c00 [stack 0]
+ Dot {
+  name Dot13
+  xpos 10490
+  ypos -766
+ }
+set N62e80000 [stack 0]
+ Dot {
+  name Dot11
+  xpos 10920
+  ypos -766
+ }
+set N62e80400 [stack 0]
+ Dot {
+  name Dot15
+  xpos 11392
+  ypos -766
+ }
+ Expression {
+  temp_name0 x
+  temp_expr0 abs(r)
+  temp_name1 y
+  temp_expr1 abs(g)
+  temp_name2 z
+  temp_expr2 abs(b)
+  expr0 z
+  expr1 z
+  expr2 z
+  expr3 z
+  name Z
+  xpos 11358
+  ypos -456
+ }
+push $N62e80400
+ Expression {
+  temp_name0 x
+  temp_expr0 abs(r)
+  temp_name1 y
+  temp_expr1 abs(g)
+  temp_name2 z
+  temp_expr2 abs(b)
+  expr0 y
+  expr1 y
+  expr2 y
+  expr3 y
+  name Y
+  xpos 10886
+  ypos -444
+ }
+set N62e81000 [stack 0]
+push $N62e80000
+ Expression {
+  temp_name0 x
+  temp_expr0 abs(r)
+  temp_name1 y
+  temp_expr1 abs(g)
+  temp_name2 z
+  temp_expr2 abs(b)
+  expr0 x
+  expr1 x
+  expr2 x
+  expr3 x
+  name X
+  xpos 10456
+  ypos -440
+ }
+set N62e81400 [stack 0]
+ Merge2 {
+  inputs 2
+  operation max
+  name Merge4
+  xpos 11155
+  ypos -243
+ }
+ Merge2 {
+  inputs 2
+  operation minus
+  name Merge5
+  xpos 11344
+  ypos -159
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge7
+  xpos 11344
+  ypos -47
+ }
+push $N9f8ba000
+ Constant {
+  inputs 0
+  color {{TRIPLANAR_PM1.Expression4.bmain}}
+  name bmain
+  xpos 9167
+  ypos -315
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  name Merge10
+  xpos 9167
+  ypos -127
+ }
+ Dot {
+  name Dot17
+  xpos 9201
+  ypos 215
+ }
+set N62eba800 [stack 0]
+ Merge2 {
+  inputs 2
+  operation divide
+  name Merge8
+  xpos 11344
+  ypos 191
+ }
+set N62ebac00 [stack 0]
+push $N62e65c00
+ Expression {
+  temp_name0 x
+  temp_expr0 abs(r)
+  temp_name1 y
+  temp_expr1 abs(g)
+  temp_name2 z
+  temp_expr2 abs(b)
+  expr0 "((y-x) + bmain/2) / bmain"
+  expr1 "((z-max(x,y)) + bmain/2) / bmain"
+  expr2 0
+  name Expression4
+  xpos 8001
+  ypos 1046
+  addUserKnob {20 User}
+  addUserKnob {7 bnoise}
+  bnoise 0.1
+  addUserKnob {7 bmain R 0.001 1}
+  bmain 0.001
+ }
+set N62ebb000 [stack 0]
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2 rgba.green 0 1 rgba.alpha 0 3"
+  name Shuffle14
+  xpos 7065
+  ypos 1046
+ }
+ Switch {
+  inputs 2
+  which {{TRIPLANAR_PM1.Switch1.which}}
+  name Switch2
+  xpos 6927
+  ypos 1046
+ }
+ Constant {
+  inputs 0
+  channels rgb
+  color {0 0 1 0}
+  color_panelDropped true
+  name Constant4
+  xpos 6248
+  ypos 974
+ }
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2 white -1 -1 rgba.alpha 0 3"
+  name Shuffle15
+  xpos 6248
+  ypos 1046
+ }
+push $N724cdc00
+push $N62e81000
+push $N62e81400
+ Merge2 {
+  inputs 2
+  operation minus
+  name Merge1
+  xpos 10521
+  ypos -124
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge2
+  xpos 10521
+  ypos -47
+ }
+push $N62eba800
+ Merge2 {
+  inputs 2
+  operation divide
+  name Merge3
+  xpos 10521
+  ypos 146
+ }
+set N62efa800 [stack 0]
+push $N62ebb000
+ Dot {
+  name Dot9
+  xpos 7753
+  ypos 825
+ }
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2 rgba.red 0 0 rgba.alpha 0 3"
+  name Shuffle16
+  xpos 7076
+  ypos 822
+ }
+ Switch {
+  inputs 2
+  which {{TRIPLANAR_PM1.on}}
+  name Switch1
+  xpos 6930
+  ypos 822
+ }
+ Constant {
+  inputs 0
+  channels rgb
+  color {0 1 0 0}
+  color_panelDropped true
+  name Constant5
+  xpos 6246
+  ypos 738
+ }
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2 white -1 -1 rgba.alpha 0 3"
+  name Shuffle17
+  xpos 6246
+  ypos 825
+ }
+ Constant {
+  inputs 0
+  channels rgb
+  color {1 0 0 0}
+  color_panelDropped true
+  name Constant6
+  xpos 6582
+  ypos 592
+ }
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2 white -1 -1 rgba.alpha 0 3"
+  name Shuffle18
+  xpos 6582
+  ypos 664
+ }
+ Merge2 {
+  inputs 2+1
+  name Merge11
+  xpos 6582
+  ypos 822
+ }
+ Merge2 {
+  inputs 2+1
+  name Merge12
+  xpos 6582
+  ypos 1046
+ }
+ Dot {
+  name Dot20
+  xpos 6616
+  ypos 1255
+ }
+ Dot {
+  name Dot22
+  xpos 344
+  ypos 1339
+ }
+set N62f31000 [stack 0]
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2 rgba.red 0 0 rgba.alpha 0 3"
+  name Shuffle34
+  xpos 310
+  ypos 1588
+ }
+push $N62e64800
+ Shuffle1 {
+  in {P.NX P.NY P.NZ P.x}
+  in2 rgba
+  name Shuffle2
+  xpos 1255
+  ypos -1154
+ }
+ Multiply {
+  value 0.602
+  name Multiply5
+  xpos 1255
+  ypos -1029
+ }
+ Dot {
+  name Dot31
+  xpos 1289
+  ypos -965
+ }
+set N62f64000 [stack 0]
+ Dot {
+  name Dot10
+  xpos 4524
+  ypos -965
+ }
+ Dot {
+  name Dot18
+  xpos 4524
+  ypos -245
+ }
+set N62f64800 [stack 0]
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 black -1 -1 rgba.blue 0 2 black -1 -1 rgba.alpha 0 3 black -1 -1 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1"
+  name G2
+  xpos 4627
+  ypos -146
+ }
+push $N62e65800
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 black -1 -1 rgba.alpha 0 3 black -1 -1 rgba.blue 0 2 rgba.red 0 0 rgba.red 0 0 black -1 -1 rgba.green 0 1"
+  name Shuffle31
+  xpos 2979
+  ypos -170
+ }
+ Expression {
+  expr0 r>0
+  name Expression6
+  xpos 2979
+  ypos -86
+ }
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 black -1 -1 rgba.blue 0 2 rgba.red 0 0 rgba.red 0 0 black -1 -1 rgba.green 0 1 rgba.red 0 0 rgba.alpha 0 3"
+  name Shuffle32
+  xpos 2979
+  ypos 44
+ }
+push $N62f64800
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 black -1 -1 rgba.alpha 0 3 black -1 -1 rgba.red 0 0 black -1 -1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2"
+  name B1
+  xpos 4321
+  ypos -142
+ }
+ Invert {
+  inputs 1+1
+  name Invert3
+  xpos 4321
+  ypos 38
+ }
+ Shuffle2 {
+  inputs 2
+  fromInput1 {{0} B A}
+  fromInput2 {{1} B A}
+  in2 rgba
+  mappings "4 black -1 -1 rgba.alpha 0 3 black -1 -1 rgba.blue 0 2 rgba.green 1 1 rgba.green 0 1 rgba.blue 0 2 rgba.red 0 0"
+  name Shuffle30
+  xpos 4627
+  ypos 44
+ }
+ Input {
+  inputs 0
+  name TEX_X
+  xpos -1653
+  ypos 763
+  number 1
+ }
+ Dot {
+  name Dot28
+  label X
+  note_font_size 100
+  xpos -1619
+  ypos 831
+ }
+ STMap {
+  inputs 2
+  uv rgb
+  name STMap6
+  xpos 4627
+  ypos 822
+ }
+ Remove {
+  operation keep
+  channels rgba
+  name Remove6
+  xpos 4627
+  ypos 893
+ }
+ Dot {
+  name Dot3
+  xpos 4661
+  ypos 1887
+ }
+push $N62f31000
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2 rgba.green 0 1 rgba.alpha 0 3"
+  name Shuffle33
+  xpos -239
+  ypos 1336
+ }
+push $N62f64000
+ Dot {
+  name Dot14
+  xpos 1289
+  ypos -216
+ }
+set N62fba000 [stack 0]
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 black -1 -1 rgba.alpha 0 3 black -1 -1 rgba.red 0 0 black -1 -1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2"
+  name B
+  xpos 1348
+  ypos -145
+ }
+push $N62e65400
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 black -1 -1 rgba.alpha 0 3 black -1 -1 rgba.red 0 0 black -1 -1 rgba.blue 0 2 rgba.green 0 1 rgba.green 0 1"
+  name Shuffle26
+  xpos -530
+  ypos -176
+ }
+ Expression {
+  expr1 g>0
+  name Expression5
+  xpos -530
+  ypos -58
+ }
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 black -1 -1 rgba.red 0 0 black -1 -1 rgba.blue 0 2 rgba.green 0 1 rgba.green 0 1 rgba.green 0 1 rgba.alpha 0 3"
+  name Shuffle27
+  xpos -530
+  ypos 45
+ }
+push $N62fba000
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.red 0 0 rgba.red 0 0 black -1 -1 rgba.alpha 0 3 black -1 -1 rgba.green 0 1 black -1 -1 rgba.blue 0 2"
+  name R1
+  xpos 1133
+  ypos -155
+ }
+ Invert {
+  inputs 1+1
+  name Invert2
+  xpos 1133
+  ypos 39
+ }
+ Shuffle2 {
+  inputs 2
+  fromInput1 {{0} B A}
+  fromInput2 {{1} B A}
+  in2 rgba
+  mappings "4 black -1 -1 rgba.alpha 0 3 rgba.red 0 0 rgba.red 0 0 black -1 -1 rgba.blue 0 2 rgba.blue 1 2 rgba.green 0 1"
+  name Shuffle25
+  xpos 1348
+  ypos 45
+ }
+ Input {
+  inputs 0
+  name TEX_Y
+  xpos -1658
+  ypos 435
+  number 2
+ }
+ Dot {
+  name Dot27
+  label Y
+  note_font_size 100
+  xpos -1624
+  ypos 475
+ }
+ STMap {
+  inputs 2
+  uv rgb
+  name STMap5
+  xpos 1348
+  ypos 443
+ }
+ Remove {
+  operation keep
+  channels rgba
+  name Remove5
+  xpos 1348
+  ypos 659
+ }
+ Dot {
+  name Dot4
+  xpos 1382
+  ypos 1011
+ }
+push $N62f31000
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2 rgba.blue 0 2 rgba.alpha 0 3"
+  name Shuffle37
+  xpos 310
+  ypos 676
+ }
+push $N62f64000
+ Dot {
+  name Dot7
+  xpos -4
+  ypos -965
+ }
+ Dot {
+  name Dot6
+  xpos -4
+  ypos -592
+ }
+ Dot {
+  name Dot5
+  xpos -831
+  ypos -592
+ }
+ Dot {
+  name Dot8
+  xpos -831
+  ypos -279
+ }
+set N63010400 [stack 0]
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 black -1 -1 rgba.blue 0 2 rgba.green 0 1 rgba.green 0 1 black -1 -1 rgba.red 0 0 black -1 -1 rgba.alpha 0 3"
+  name G
+  xpos -771
+  ypos -205
+ }
+push $N62e65400
+ Dot {
+  name Dot2
+  xpos -1572
+  ypos -766
+ }
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 black -1 -1 rgba.green 0 1 black -1 -1 rgba.alpha 0 3 rgba.blue 0 2 rgba.blue 0 2 black -1 -1 rgba.red 0 0"
+  name Shuffle21
+  xpos -1606
+  ypos -171
+ }
+ Expression {
+  expr2 b<0
+  name Expression3
+  xpos -1606
+  ypos -122
+ }
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 black -1 -1 rgba.green 0 1 rgba.blue 0 2 rgba.alpha 0 3 rgba.blue 0 2 rgba.blue 0 2 black -1 -1 rgba.red 0 0"
+  name Shuffle22
+  xpos -1606
+  ypos -65
+ }
+push $N63010400
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.red 0 0 rgba.red 0 0 black -1 -1 rgba.alpha 0 3 black -1 -1 rgba.green 0 1 black -1 -1 rgba.blue 0 2"
+  name R
+  xpos -984
+  ypos -205
+ }
+ Invert {
+  inputs 1+1
+  name Invert1
+  xpos -984
+  ypos -71
+ }
+ Shuffle2 {
+  inputs 2
+  fromInput1 {{0} B A}
+  fromInput2 {{1} B A}
+  in2 rgba
+  mappings "4 rgba.green 1 1 rgba.green 0 1 black -1 -1 rgba.alpha 0 3 rgba.red 0 0 rgba.red 0 0 black -1 -1 rgba.blue 0 2"
+  name Shuffle19
+  xpos -771
+  ypos -65
+ }
+ Input {
+  inputs 0
+  name TEX_Z
+  xpos -1657
+  ypos 215
+  number 3
+ }
+ Dot {
+  name Dot26
+  label Z
+  note_font_size 100
+  xpos -1623
+  ypos 298
+ }
+ STMap {
+  inputs 2
+  uv rgb
+  name STMap4
+  xpos -771
+  ypos 289
+ }
+ Remove {
+  operation keep
+  channels rgba
+  name Remove4
+  xpos -771
+  ypos 616
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy3
+  xpos -771
+  ypos 670
+ }
+ Premult {
+  name Premult6
+  xpos -771
+  ypos 732
+ }
+ Merge2 {
+  inputs 2+1
+  name Merge13
+  xpos -771
+  ypos 1336
+ }
+ Merge2 {
+  inputs 2+1
+  name Merge14
+  xpos -771
+  ypos 1884
+ }
+ Dot {
+  name Dot23
+  xpos -737
+  ypos 2031
+ }
+ Output {
+  name Output1
+  xpos -771
+  ypos 2152
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote2
+  label "X,Y,Z texture..."
+  note_font_size 100
+  xpos -1980
+  ypos 563
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote5
+  label ZY
+  note_font_size 100
+  xpos 4100
+  ypos -174
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote4
+  label XZ
+  note_font_size 100
+  xpos 875
+  ypos -152
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote3
+  label XY
+  note_font_size 100
+  xpos -1208
+  ypos -241
+ }
+push $N62ebb000
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.red 0 0 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.red 0 0 rgba.blue 0 2 rgba.red 0 0 rgba.alpha 0 3"
+  name Shuffle3
+  xpos 10163
+  ypos 1216
+ }
+push $N62efa800
+ Merge2 {
+  inputs 2
+  operation difference
+  name Merge6
+  xpos 10507
+  ypos 1216
+ }
+push $N62ebac00
+push $N62ebb000
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.green 0 1 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.green 0 1 rgba.alpha 0 3"
+  name Shuffle4
+  xpos 10361
+  ypos 1059
+ }
+ Merge2 {
+  inputs 2
+  operation difference
+  name Merge9
+  xpos 11344
+  ypos 1059
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote8
+  label "BLEND operator"
+  note_font_size 100
+  xpos 7233
+  ypos 536
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  label NOISE
+  note_font_size 100
+  xpos 8632
+  ypos -533
+ }
+end_group
+Dot {
+ name Dot12
+ xpos -24
+ ypos 815
+}
+Viewer {
+ frame 10
+ frame_range 1-100
+ translate {-1.991999984 -0.06599999964}
+ monitorOutNDISenderName "NukeX - TRIPLANAR_TOOL_v003 - Viewer1"
+ monitorOutOutputTransform rec709
+ name Viewer1
+ xpos -716
+ ypos 1216
+}
