@@ -1,0 +1,2376 @@
+#! C:/Program Files/Nuke15.1v3/nuke-15.1.3.dll -nx
+version 15.1 v3
+define_window_layout_xml {<?xml version="1.0" encoding="UTF-8"?>
+<layout version="1.0">
+    <window x="0" y="0" w="2557" h="1360" screen="0">
+        <splitter orientation="1">
+            <split size="40"/>
+            <dock id="" hideTitles="1" activePageId="Toolbar.1">
+                <page id="Toolbar.1"/>
+            </dock>
+            <split size="1894" stretch="1"/>
+            <splitter orientation="2">
+                <split size="774"/>
+                <dock id="" activePageId="Viewer.1">
+                    <page id="Viewer.1"/>
+                </dock>
+                <split size="544"/>
+                <dock id="" activePageId="DAG.1" focus="true">
+                    <page id="DAG.1"/>
+                    <page id="Curve Editor.1"/>
+                    <page id="DopeSheet.1"/>
+                </dock>
+            </splitter>
+            <split size="615"/>
+            <dock id="" activePageId="Properties.1">
+                <page id="Properties.1"/>
+                <page id="uk.co.thefoundry.backgroundrenderview.1"/>
+                <page id="Scenegraph.1"/>
+            </dock>
+        </splitter>
+    </window>
+</layout>
+}
+Root {
+ inputs 0
+ name C:/Users/WORKSTATION/TRIPLANAR_pScatterFix_v001.nk
+ frame 37
+ format "2048 1556 0 0 2048 1556 1 2K_Super_35(full-ap)"
+ proxy_type scale
+ proxy_format "1024 778 0 0 1024 778 1 1K_Super_35(full-ap)"
+ colorManagement Nuke
+ workingSpaceLUT linear
+ monitorLut sRGB
+ monitorOutLUT rec709
+ int8Lut sRGB
+ int16Lut sRGB
+ logLut Cineon
+ floatLut linear
+}
+StickyNote {
+ inputs 0
+ name StickyNote1
+ label 1-100
+ note_font_size 30
+ xpos -370
+ ypos -164
+}
+Dot {
+ inputs 0
+ name Dot2
+ xpos -500
+ ypos 472
+}
+set Nfa79d400 [stack 0]
+push $Nfa79d400
+push $Nfa79d400
+Camera2 {
+ inputs 0
+ translate {{curve x1 -3.61574173 x100 4.021763802} {curve x1 1.328431845 x100 0.9841157794} {curve x1 4.694727898 x100 4.483808994}}
+ rotate {{curve x1 -6.277982463 x100 -3.207973581} {curve x1 -22.60000996 x100 36.77119766} {curve x1 0 x100 -5.399300824}}
+ focal 16
+ vaperture 13.824
+ name Camera1
+ xpos -520
+ ypos 266
+}
+CheckerBoard2 {
+ inputs 0
+ centerlinewidth 0
+ name CheckerBoard1
+ xpos -366
+ ypos -102
+}
+set Nfa79dc00 [stack 0]
+Cube {
+ uniform_scale 10
+ name Cube1
+ xpos -220
+ ypos 26
+}
+push $Nfa79dc00
+Sphere {
+ rows 100
+ columns 100
+ translate {0 0 -3.579999924}
+ uniform_scale 2
+ name Sphere1
+ xpos -366
+ ypos 40
+}
+Scene {
+ inputs 2
+ name Scene1
+ xpos -356
+ ypos 121
+}
+push 0
+add_layer {P P.NX P.NY P.NZ P.x P.y P.z P.red P.green P.blue P.alpha P.R P.G P.B N.red N.green N.blue pw.g pw.b P.X P.Y P.Z pw.alpha pw.r P.other}
+add_layer {N N.red N.green N.blue N.alpha N.x N.y N.z N.r N.g N.b N.X N.Y N.Z}
+ScanlineRender {
+ inputs 3
+ conservative_shader_sampling false
+ output_shader_vectors true
+ P_channel {P.NX P.NY P.NZ}
+ N_channel {N.red N.green N.blue}
+ name ScanlineRender1
+ xpos -366
+ ypos 287
+}
+set Nfa7fac00 [stack 0]
+Group {
+ inputs 4
+ name TRIPLANAR_PM2
+ xpos -366
+ ypos 465
+ addUserKnob {20 User l TRIPLANAR_PM}
+ addUserKnob {4 output l OUTPUT M {IMG Nmap}}
+ output Nmap
+ addUserKnob {26 ""}
+ addUserKnob {41 in_1 l P: T Shuffle2.in}
+ addUserKnob {41 value l "P mult" +INVISIBLE T Multiply5.value}
+ addUserKnob {41 in l N: T Shuffle1.in}
+ addUserKnob {26 ""}
+ addUserKnob {41 bmain l GRADIENT T Expression4.bmain}
+ addUserKnob {41 mix l NOISE T Merge10.mix}
+ addUserKnob {41 GAMMA -STARTLINE T CTRL1.GAMMA}
+ addUserKnob {6 on l "noise on/off" -STARTLINE +INVISIBLE}
+ on true
+ addUserKnob {26 ""}
+ addUserKnob {6 antialiasing l Antialiasing +STARTLINE}
+ antialiasing true
+ addUserKnob {6 lerp l "LERP ON/OFF" +INVISIBLE +STARTLINE}
+ addUserKnob {26 ""}
+ addUserKnob {26 _1 l "" +STARTLINE T "Entagma Triplanar texture Mapping by Christopher Kopic\nReconstruct by Peter Mercell \nversion 0.92"}
+ addUserKnob {26 site l "" +STARTLINE T "<a style=\"color: #999999;\"><a style=\"color: #999999;\" href=\"http://www.petermercell.com\" target=\"_blank\" rel=\"noopener\">www.petermercell.com</a>"}
+}
+ StickyNote {
+  inputs 0
+  name StickyNote6
+  label N
+  note_font_size 100
+  xpos -529
+  ypos -1075
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote7
+  label "P\n+ scale operator"
+  note_font_size 100
+  xpos 908
+  ypos -1407
+ }
+ Noise {
+  inputs 0
+  cliptype none
+  size 1.4
+  zoffset 3.66
+  gain 1
+  gamma {{parent.CTRL1.GAMMA}}
+  center {1024 778}
+  name Noise2
+  xpos 8857
+  ypos -353
+ }
+ Noise {
+  inputs 0
+  cliptype none
+  size 1.4
+  zoffset 3.66
+  gamma 0.15
+  center {1024 778}
+  name Noise1
+  xpos 8736
+  ypos -382
+ }
+ Switch {
+  inputs 2
+  which 1
+  name Switch4
+  xpos 8736
+  ypos -324
+ }
+ Grade {
+  channels rgba
+  whitepoint 0.5
+  multiply 4
+  gamma 5
+  name Grade1
+  xpos 8743
+  ypos -273
+ }
+ Blur {
+  size 6.2
+  name Blur1
+  xpos 8743
+  ypos -241
+ }
+ Blur {
+  size 20
+  name Blur2
+  xpos 8743
+  ypos -205
+ }
+ Dot {
+  name Dot19
+  xpos 8777
+  ypos -156
+ }
+set Nfa83d400 [stack 0]
+ Constant {
+  inputs 0
+  color {{TRIPLANAR_PM2.bmain/2}}
+  name Constant2
+  xpos 9771
+  ypos -323
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  mix {{parent.Merge10.mix}}
+  name Merge15
+  xpos 9771
+  ypos -184
+ }
+ Dot {
+  name Dot16
+  xpos 9805
+  ypos 45
+ }
+set Nfa87a000 [stack 0]
+ Dot {
+  name Dot37
+  xpos 11035
+  ypos 11
+ }
+set Nfa87a400 [stack 0]
+ Input {
+  inputs 0
+  name INPUT
+  xpos -1606
+  ypos -1525
+ }
+ Dot {
+  name Dot25
+  xpos -1572
+  ypos -1442
+ }
+ Dot {
+  name Dot1
+  xpos -1574
+  ypos -1151
+ }
+set Nfa87b000 [stack 0]
+ Dot {
+  name Dot29
+  xpos -1572
+  ypos -839
+ }
+ Shuffle1 {
+  in {N.red N.green N.blue N.alpha}
+  in2 rgba
+  name Shuffle1
+  xpos -530
+  ypos -842
+ }
+set Nfa87b800 [stack 0]
+ Dot {
+  name Dot30
+  xpos -496
+  ypos -766
+ }
+set Nfa87bc00 [stack 0]
+ Dot {
+  name Dot12
+  xpos 3013
+  ypos -766
+ }
+set Nfa896000 [stack 0]
+ Dot {
+  name Dot32
+  xpos 8035
+  ypos -766
+ }
+set Nfa896400 [stack 0]
+ Dot {
+  name Dot13
+  xpos 10490
+  ypos -766
+ }
+set Nfa896800 [stack 0]
+ Expression {
+  temp_name0 x
+  temp_expr0 abs(r)
+  temp_name1 y
+  temp_expr1 abs(g)
+  temp_name2 z
+  temp_expr2 abs(b)
+  expr0 x
+  expr1 x
+  expr2 x
+  expr3 x
+  name X
+  xpos 10456
+  ypos -440
+ }
+set Nfa896c00 [stack 0]
+push $Nfa896800
+ Dot {
+  name Dot11
+  xpos 10920
+  ypos -766
+ }
+set Nfa897000 [stack 0]
+ Dot {
+  name Dot15
+  xpos 11392
+  ypos -766
+ }
+ Expression {
+  temp_name0 x
+  temp_expr0 abs(r)
+  temp_name1 y
+  temp_expr1 abs(g)
+  temp_name2 z
+  temp_expr2 abs(b)
+  expr0 z
+  expr1 z
+  expr2 z
+  expr3 z
+  name Z
+  xpos 11358
+  ypos -456
+ }
+set Nfa897800 [stack 0]
+ Merge2 {
+  inputs 2
+  operation minus
+  name Merge23
+  xpos 11751
+  ypos -229
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge21
+  xpos 11751
+  ypos 18
+ }
+push $Nfa83d400
+ Constant {
+  inputs 0
+  color {{TRIPLANAR_PM2.Expression4.bmain}}
+  name bmain
+  xpos 9167
+  ypos -315
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  mix 0.5
+  name Merge10
+  xpos 9167
+  ypos -127
+ }
+ Dot {
+  name Dot17
+  xpos 9201
+  ypos 215
+ }
+set Nfa8c2c00 [stack 0]
+ Dot {
+  name Dot38
+  xpos 10964
+  ypos 192
+ }
+set Nfa8c3000 [stack 0]
+ Merge2 {
+  inputs 2
+  operation divide
+  name Merge22
+  xpos 11760
+  ypos 152
+ }
+push $Nfa87a400
+push $Nfa897000
+ Expression {
+  temp_name0 x
+  temp_expr0 abs(r)
+  temp_name1 y
+  temp_expr1 abs(g)
+  temp_name2 z
+  temp_expr2 abs(b)
+  expr0 y
+  expr1 y
+  expr2 y
+  expr3 y
+  name Y
+  xpos 10886
+  ypos -444
+ }
+set Nfa8c3800 [stack 0]
+push $Nfa897800
+ Merge2 {
+  inputs 2
+  operation minus
+  name Merge25
+  xpos 12023
+  ypos -305
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge18
+  xpos 12023
+  ypos -118
+ }
+push $Nfa8c3000
+ Merge2 {
+  inputs 2
+  operation divide
+  name Merge20
+  xpos 12009
+  ypos 87
+ }
+ Merge2 {
+  inputs 2
+  operation minus
+  name Merge26
+  xpos 12009
+  ypos 242
+ }
+ Dot {
+  name Dot40
+  xpos 12043
+  ypos 587
+ }
+ Dot {
+  name Dot39
+  xpos 6904
+  ypos 1462
+ }
+push $Nfa87a400
+push $Nfa897800
+push $Nfa8c3800
+push $Nfa896c00
+ Merge2 {
+  inputs 2
+  operation max
+  name Merge4
+  xpos 11199
+  ypos -273
+ }
+ Merge2 {
+  inputs 2
+  operation minus
+  name Merge5
+  xpos 11344
+  ypos -173
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge7
+  xpos 11344
+  ypos -13
+ }
+push $Nfa8c3000
+ Merge2 {
+  inputs 2
+  operation divide
+  name Merge8
+  xpos 11344
+  ypos 189
+ }
+set Nfa93c000 [stack 0]
+push $Nfa896400
+ Expression {
+  temp_name0 x
+  temp_expr0 abs(r)
+  temp_name1 y
+  temp_expr1 abs(g)
+  temp_name2 z
+  temp_expr2 abs(b)
+  expr0 "((y-x) + bmain/2) / bmain"
+  expr1 "((z-max(x,y)) + bmain/2) / bmain"
+  expr2 0
+  name Expression4
+  xpos 8001
+  ypos 1054
+  addUserKnob {20 User}
+  addUserKnob {7 bnoise}
+  bnoise 0.1
+  addUserKnob {7 bmain R 0.001 1}
+  bmain 1
+ }
+set Nfa93c400 [stack 0]
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2 rgba.green 0 1 rgba.alpha 0 3"
+  name Shuffle14
+  xpos 7194
+  ypos 1046
+ }
+ Switch {
+  inputs 2
+  which {{TRIPLANAR_PM2.Switch1.which}}
+  name Switch2
+  xpos 7054
+  ypos 1046
+ }
+set Nfa84ed00 [stack 0]
+ Constant {
+  inputs 0
+  channels rgb
+  color {0 0 1 0}
+  color_panelDropped true
+  name Constant4
+  xpos 6248
+  ypos 941
+ }
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2 white -1 -1 rgba.alpha 0 3"
+  name Shuffle15
+  xpos 6248
+  ypos 1046
+ }
+set Nfa93d000 [stack 0]
+ Constant {
+  inputs 0
+  channels rgb
+  color {0 0 1 0}
+  color_panelDropped true
+  name Constant1
+  xpos 6453
+  ypos 622
+ }
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2 white -1 -1 rgba.alpha 0 3"
+  name Shuffle6
+  xpos 6453
+  ypos 727
+ }
+push $Nfa87b000
+ Shuffle1 {
+  in {P.NX P.NY P.NZ P.x}
+  in2 rgba
+  name Shuffle2
+  xpos 1255
+  ypos -1154
+ }
+set Nfa93dc00 [stack 0]
+ Unpremult {
+  channels all
+  name Unpremult3
+  xpos 6992
+  ypos -620
+ }
+ Expression {
+  temp_name0 l
+  temp_expr0 sqrt(r*r+g*g+b*b)
+  expr0 -r/l
+  expr1 -g/l
+  expr2 -b/l
+  name Expression
+  xpos 6992
+  ypos -584
+ }
+push $Nfa87b800
+ Unpremult {
+  channels all
+  name Unpremult4
+  xpos 6689
+  ypos -608
+ }
+ Expression {
+  temp_name0 l
+  temp_expr0 sqrt(r*r+g*g+b*b)
+  expr0 r/l
+  expr1 g/l
+  expr2 b/l
+  name Expression1
+  xpos 6689
+  ypos -565
+ }
+ MergeExpression {
+  inputs 2
+  expr0 1-(Ar*Br+Ag*Bg+Ab*Bb)
+  expr1 1-(Ar*Br+Ag*Bg+Ab*Bb)
+  expr2 1-(Ar*Br+Ag*Bg+Ab*Bb)
+  name MergeExpression3
+  xpos 6884
+  ypos -453
+ }
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2 rgba.red 0 0 rgba.alpha 0 3"
+  name Shuffle5
+  xpos 6884
+  ypos -295
+ }
+ Dot {
+  name Dot21
+  xpos 6918
+  ypos -170
+ }
+ Dot {
+  name Dot24
+  xpos 6918
+  ypos 605
+ }
+set Nfa979c00 [stack 0]
+ Constant {
+  inputs 0
+  channels rgb
+  color {1 0 0 0}
+  color_panelDropped true
+  name Constant6
+  xpos 6582
+  ypos 387
+ }
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2 white -1 -1 rgba.alpha 0 3"
+  name Shuffle18
+  xpos 6582
+  ypos 550
+ }
+ ChannelMerge {
+  inputs 2
+  operation multiply
+  name ChannelMerge3
+  xpos 6582
+  ypos 590
+ }
+ Premult {
+  name Premult1
+  xpos 6582
+  ypos 671
+ }
+ Merge2 {
+  inputs 2
+  operation under
+  name Merge16
+  xpos 6582
+  ypos 727
+ }
+set Nfa9b3000 [stack 0]
+ Merge2 {
+  inputs 2+1
+  name Merge12
+  xpos 6582
+  ypos 1046
+ }
+ Dot {
+  name Dot33
+  xpos 6040
+  ypos 1176
+ }
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.blue 0 2 rgba.blue 0 2 rgba.blue 0 2 rgba.alpha 0 3 rgba.blue 0 2 rgba.green 0 1 rgba.blue 0 2 rgba.red 0 0"
+  name Shuffle8
+  xpos 6006
+  ypos 1221
+ }
+ Grade {
+  channels alpha
+  gamma {{parent.FIT_LERP1.output}}
+  name Grade3
+  xpos 6006
+  ypos 1341
+  disable {{TRIPLANAR_PM2.lerp}}
+ }
+ Constant {
+  inputs 0
+  channels rgb
+  color {0 0 1 0}
+  color_panelDropped true
+  name Constant8
+  xpos 5866
+  ypos 1462
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy2
+  xpos 6006
+  ypos 1480
+ }
+set Nfa9e4800 [stack 0]
+push $Nfa979c00
+push $Nfa87a000
+push $Nfa8c3800
+push $Nfa896c00
+ Merge2 {
+  inputs 2
+  operation minus
+  name Merge1
+  xpos 10521
+  ypos -192
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge2
+  xpos 10521
+  ypos -46
+ }
+push $Nfa8c2c00
+ Merge2 {
+  inputs 2
+  operation divide
+  name Merge3
+  xpos 10521
+  ypos 142
+ }
+set Nfa9e5400 [stack 0]
+push $Nfa93c400
+ Dot {
+  name Dot9
+  xpos 7753
+  ypos 825
+ }
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2 rgba.red 0 0 rgba.alpha 0 3"
+  name Shuffle16
+  xpos 7198
+  ypos 822
+ }
+ Switch {
+  inputs 2
+  which {{TRIPLANAR_PM2.on}}
+  name Switch1
+  xpos 7053
+  ypos 822
+ }
+ ChannelMerge {
+  inputs 2
+  operation multiply
+  name ChannelMerge1
+  xpos 6884
+  ypos 810
+ }
+set N1b9ac000 [stack 0]
+ Dot {
+  name Dot35
+  xpos 6918
+  ypos 1285
+ }
+ Dot {
+  name Dot36
+  xpos 6284
+  ypos 1285
+ }
+ ChannelMerge {
+  inputs 2
+  operation stencil
+  name ChannelMerge8
+  xpos 6250
+  ypos 1474
+ }
+ Grade {
+  channels alpha
+  gamma {{parent.FIT_LERP2.output}}
+  name Grade4
+  xpos 6373
+  ypos 1480
+  disable {{TRIPLANAR_PM2.lerp}}
+ }
+ Constant {
+  inputs 0
+  channels rgb
+  color {0 1 0 0}
+  color_panelDropped true
+  name Constant9
+  xpos 6535
+  ypos 1331
+ }
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2 white -1 -1 rgba.alpha 0 3"
+  name Shuffle10
+  xpos 6535
+  ypos 1429
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy4
+  xpos 6535
+  ypos 1480
+ }
+ ChannelMerge {
+  inputs 2
+  operation stencil
+  name ChannelMerge4
+  xpos 6535
+  ypos 1562
+ }
+set Nfad8e000 [stack 0]
+push $Nfa9e4800
+ Dot {
+  name Dot41
+  xpos 6040
+  ypos 1725
+ }
+push $Nfad8e000
+ Premult {
+  name Premult4
+  xpos 6535
+  ypos 1629
+ }
+ Merge2 {
+  inputs 2
+  name Merge11
+  xpos 6535
+  ypos 1722
+ }
+set Nfad8ec00 [stack 0]
+ Invert {
+  channels alpha
+  name Invert4
+  xpos 6654
+  ypos 1716
+ }
+ Grade {
+  channels alpha
+  gamma {{parent.FIT_LERP3.output}}
+  name Grade5
+  xpos 6654
+  ypos 1798
+  disable {{TRIPLANAR_PM2.lerp}}
+ }
+ Constant {
+  inputs 0
+  channels rgb
+  color {1 0 0 0}
+  color_panelDropped true
+  name Constant7
+  xpos 6872
+  ypos 1568
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy5
+  xpos 6872
+  ypos 1716
+ }
+ ChannelMerge {
+  inputs 2
+  operation stencil
+  name ChannelMerge5
+  xpos 6872
+  ypos 1791
+ }
+ Premult {
+  name Premult5
+  xpos 6872
+  ypos 1940
+ }
+push $Nfad8ec00
+ Merge2 {
+  inputs 2
+  operation under
+  name Merge19
+  xpos 6535
+  ypos 1940
+ }
+push $Nfa84ed00
+push $Nfa93d000
+push $N1b9ac000
+ Constant {
+  inputs 0
+  channels rgb
+  color {0 1 0 0}
+  color_panelDropped true
+  name Constant3
+  xpos 6244
+  ypos 679
+ }
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2 white -1 -1 rgba.alpha 0 3"
+  name Shuffle7
+  xpos 6244
+  ypos 777
+ }
+push $Nfa9b3000
+ Merge2 {
+  inputs 2+1
+  name Merge24
+  xpos 6661
+  ypos 822
+ }
+ Merge2 {
+  inputs 2+1
+  name Merge27
+  xpos 6661
+  ypos 958
+ }
+ Switch {
+  inputs 2
+  which 1
+  name Switch3
+  xpos 6535
+  ypos 2036
+ }
+ Dot {
+  name Dot34
+  xpos 6569
+  ypos 2116
+ }
+set Nfadcdc00 [stack 0]
+ Dot {
+  name Dot20
+  xpos 6569
+  ypos 2210
+ }
+set Nfae0a000 [stack 0]
+push $Nfae0a000
+ Dot {
+  name Dot22
+  xpos 361
+  ypos 2210
+ }
+set Nfae0a400 [stack 0]
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2 rgba.red 0 0 rgba.alpha 0 3"
+  name Shuffle34
+  xpos 327
+  ypos 2458
+ }
+push $Nfa93dc00
+ Multiply {
+  value 0.602
+  name Multiply5
+  xpos 1255
+  ypos -1029
+ }
+ Dot {
+  name Dot31
+  xpos 1289
+  ypos -965
+ }
+set Nfae0b000 [stack 0]
+ Dot {
+  name Dot10
+  xpos 4524
+  ypos -965
+ }
+ Dot {
+  name Dot18
+  xpos 4524
+  ypos -245
+ }
+set Nfae0b800 [stack 0]
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 black -1 -1 rgba.blue 0 2 black -1 -1 rgba.alpha 0 3 black -1 -1 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1"
+  name G2
+  xpos 4627
+  ypos -146
+ }
+push $Nfa896000
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 black -1 -1 rgba.alpha 0 3 black -1 -1 rgba.blue 0 2 rgba.red 0 0 rgba.red 0 0 black -1 -1 rgba.green 0 1"
+  name Shuffle31
+  xpos 2979
+  ypos -170
+ }
+ Expression {
+  expr0 r>0
+  name Expression6
+  xpos 2979
+  ypos -86
+ }
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 black -1 -1 rgba.blue 0 2 rgba.red 0 0 rgba.red 0 0 black -1 -1 rgba.green 0 1 rgba.red 0 0 rgba.alpha 0 3"
+  name Shuffle32
+  xpos 2979
+  ypos 44
+ }
+push $Nfae0b800
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 black -1 -1 rgba.alpha 0 3 black -1 -1 rgba.red 0 0 black -1 -1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2"
+  name B1
+  xpos 4321
+  ypos -142
+ }
+ Invert {
+  inputs 1+1
+  name Invert3
+  xpos 4321
+  ypos 38
+ }
+ Shuffle2 {
+  inputs 2
+  fromInput1 {{0} B A}
+  fromInput2 {{1} B A}
+  in2 rgba
+  mappings "4 black -1 -1 rgba.alpha 0 3 black -1 -1 rgba.blue 0 2 rgba.green 1 1 rgba.green 0 1 rgba.blue 0 2 rgba.red 0 0"
+  name Shuffle30
+  xpos 4627
+  ypos 44
+ }
+ Remove {
+  operation keep
+  channels rgb
+  name Remove3
+  xpos 4627
+  ypos 537
+ }
+ Dot {
+  name Dot44
+  xpos 4661
+  ypos 619
+ }
+set Nfae2dc00 [stack 0]
+ Input {
+  inputs 0
+  name TEX_X
+  xpos -1653
+  ypos 763
+  number 1
+ }
+ Dot {
+  name Dot28
+  label X
+  note_font_size 100
+  xpos -1619
+  ypos 831
+ }
+set Nfb7a0400 [stack 0]
+push $Nfae2dc00
+ MergeExpression {
+  inputs 2
+  temp_name0 xPos
+  temp_expr0 Br*Remove1.width
+  temp_name1 yPos
+  temp_expr1 Bg*Remove1.height
+  expr0 Ar(xPos,yPos)
+  expr1 Ag(xPos,yPos)
+  expr2 Ab(xPos,yPos)
+  channel3 {none none none -rgba.alpha}
+  expr3 1
+  name MergeExpression4
+  xpos 4453
+  ypos 732
+ }
+ CopyBBox {
+  inputs 2
+  name CopyBBox3
+  xpos 4453
+  ypos 809
+ }
+set Nfb7a0c00 [stack 0]
+ Dot {
+  name Dot47
+  xpos 4487
+  ypos 906
+ }
+push $Nfae2dc00
+push $Nfb7a0400
+ STMap {
+  inputs 2
+  uv rgb
+  name STMap6
+  xpos 4627
+  ypos 822
+ }
+set Nfb7a1400 [stack 0]
+ Switch {
+  inputs 2
+  which {{parent.Switch5.which}}
+  name Switch7
+  xpos 4627
+  ypos 903
+ }
+ Remove {
+  operation keep
+  channels rgba
+  name Remove6
+  xpos 4627
+  ypos 977
+ }
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2 white -1 -1 rgba.alpha 0 3"
+  name Shuffle12
+  xpos 4627
+  ypos 1029
+ }
+ Dot {
+  name Dot3
+  xpos 4678
+  ypos 2758
+ }
+push $Nfae0a400
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2 rgba.green 0 1 rgba.alpha 0 3"
+  name Shuffle33
+  xpos -221
+  ypos 2207
+ }
+push $Nfae0b000
+ Dot {
+  name Dot14
+  xpos 1289
+  ypos -216
+ }
+set Nfb7d0800 [stack 0]
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 black -1 -1 rgba.alpha 0 3 black -1 -1 rgba.red 0 0 black -1 -1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2"
+  name B
+  xpos 1348
+  ypos -145
+ }
+push $Nfa87bc00
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 black -1 -1 rgba.alpha 0 3 black -1 -1 rgba.red 0 0 black -1 -1 rgba.blue 0 2 rgba.green 0 1 rgba.green 0 1"
+  name Shuffle26
+  xpos -530
+  ypos -176
+ }
+ Expression {
+  expr1 g>0
+  name Expression5
+  xpos -530
+  ypos -58
+ }
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 black -1 -1 rgba.red 0 0 black -1 -1 rgba.blue 0 2 rgba.green 0 1 rgba.green 0 1 rgba.green 0 1 rgba.alpha 0 3"
+  name Shuffle27
+  xpos -530
+  ypos 45
+ }
+push $Nfb7d0800
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.red 0 0 rgba.red 0 0 black -1 -1 rgba.alpha 0 3 black -1 -1 rgba.green 0 1 black -1 -1 rgba.blue 0 2"
+  name R1
+  xpos 1133
+  ypos -155
+ }
+ Invert {
+  inputs 1+1
+  name Invert2
+  xpos 1133
+  ypos 39
+ }
+ Shuffle2 {
+  inputs 2
+  fromInput1 {{0} B A}
+  fromInput2 {{1} B A}
+  in2 rgba
+  mappings "4 black -1 -1 rgba.alpha 0 3 rgba.red 0 0 rgba.red 0 0 black -1 -1 rgba.blue 0 2 rgba.blue 1 2 rgba.green 0 1"
+  name Shuffle25
+  xpos 1348
+  ypos 45
+ }
+ Remove {
+  operation keep
+  channels rgb
+  name Remove2
+  xpos 1348
+  ypos 163
+ }
+ Dot {
+  name Dot43
+  xpos 1382
+  ypos 252
+ }
+set Nfb800c00 [stack 0]
+ Input {
+  inputs 0
+  name TEX_Y
+  xpos -1658
+  ypos 435
+  number 2
+ }
+ Dot {
+  name Dot27
+  label Y
+  note_font_size 100
+  xpos -1624
+  ypos 475
+ }
+set Nfb801400 [stack 0]
+push $Nfb800c00
+ MergeExpression {
+  inputs 2
+  temp_name0 xPos
+  temp_expr0 Br*Remove1.width
+  temp_name1 yPos
+  temp_expr1 Bg*Remove1.height
+  expr0 Ar(xPos,yPos)
+  expr1 Ag(xPos,yPos)
+  expr2 Ab(xPos,yPos)
+  channel3 {none none none -rgba.alpha}
+  expr3 1
+  name MergeExpression2
+  xpos 1182
+  ypos 418
+ }
+ CopyBBox {
+  inputs 2
+  name CopyBBox2
+  xpos 1182
+  ypos 496
+ }
+set Nfb801c00 [stack 0]
+ Dot {
+  name Dot46
+  xpos 1216
+  ypos 539
+ }
+push $Nfb800c00
+push $Nfb801400
+ STMap {
+  inputs 2
+  uv rgb
+  name STMap5
+  xpos 1348
+  ypos 445
+ }
+set Nfb828400 [stack 0]
+ Switch {
+  inputs 2
+  which {{parent.Switch5.which}}
+  name Switch6
+  xpos 1348
+  ypos 536
+ }
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2 white -1 -1 rgba.alpha 0 3"
+  name Shuffle11
+  xpos 1348
+  ypos 582
+ }
+ Remove {
+  operation keep
+  channels rgba
+  name Remove5
+  xpos 1348
+  ypos 659
+ }
+ Dot {
+  name Dot4
+  xpos 1382
+  ypos 1011
+ }
+push $Nfae0a400
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2 rgba.blue 0 2 rgba.alpha 0 3"
+  name Shuffle37
+  xpos 307
+  ypos 664
+ }
+push $Nfae0b000
+ Dot {
+  name Dot7
+  xpos -4
+  ypos -965
+ }
+ Dot {
+  name Dot6
+  xpos -4
+  ypos -592
+ }
+ Dot {
+  name Dot5
+  xpos -831
+  ypos -592
+ }
+ Dot {
+  name Dot8
+  xpos -831
+  ypos -279
+ }
+set Nfb852400 [stack 0]
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 black -1 -1 rgba.blue 0 2 rgba.green 0 1 rgba.green 0 1 black -1 -1 rgba.red 0 0 black -1 -1 rgba.alpha 0 3"
+  name G
+  xpos -771
+  ypos -205
+ }
+push $Nfa87bc00
+ Dot {
+  name Dot2
+  xpos -1572
+  ypos -766
+ }
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 black -1 -1 rgba.green 0 1 black -1 -1 rgba.alpha 0 3 rgba.blue 0 2 rgba.blue 0 2 black -1 -1 rgba.red 0 0"
+  name Shuffle21
+  xpos -1606
+  ypos -171
+ }
+ Expression {
+  expr2 b<0
+  name Expression3
+  xpos -1606
+  ypos -122
+ }
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 black -1 -1 rgba.green 0 1 rgba.blue 0 2 rgba.alpha 0 3 rgba.blue 0 2 rgba.blue 0 2 black -1 -1 rgba.red 0 0"
+  name Shuffle22
+  xpos -1606
+  ypos -65
+ }
+push $Nfb852400
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.red 0 0 rgba.red 0 0 black -1 -1 rgba.alpha 0 3 black -1 -1 rgba.green 0 1 black -1 -1 rgba.blue 0 2"
+  name R
+  xpos -984
+  ypos -205
+ }
+ Invert {
+  inputs 1+1
+  name Invert1
+  xpos -984
+  ypos -71
+ }
+ Shuffle2 {
+  inputs 2
+  fromInput1 {{0} B A}
+  fromInput2 {{1} B A}
+  in2 rgba
+  mappings "4 rgba.green 1 1 rgba.green 0 1 black -1 -1 rgba.alpha 0 3 rgba.red 0 0 rgba.red 0 0 black -1 -1 rgba.blue 0 2"
+  name Shuffle19
+  xpos -771
+  ypos -65
+ }
+ Remove {
+  operation keep
+  channels rgb
+  name Remove1
+  xpos -771
+  ypos 61
+ }
+ Dot {
+  name Dot42
+  xpos -737
+  ypos 146
+ }
+set Nfb884c00 [stack 0]
+ Input {
+  inputs 0
+  name TEX_Z
+  xpos -1657
+  ypos 215
+  number 3
+ }
+ Dot {
+  name Dot26
+  label Z
+  note_font_size 100
+  xpos -1623
+  ypos 298
+ }
+set Nfb885400 [stack 0]
+push $Nfb884c00
+ MergeExpression {
+  inputs 2
+  temp_name0 xPos
+  temp_expr0 Br*Remove1.width
+  temp_name1 yPos
+  temp_expr1 Bg*Remove1.height
+  expr0 Ar(xPos,yPos)
+  expr1 Ag(xPos,yPos)
+  expr2 Ab(xPos,yPos)
+  channel3 {none none none -rgba.alpha}
+  expr3 1
+  name MergeExpression5
+  xpos -935
+  ypos 256
+ }
+ CopyBBox {
+  inputs 2
+  name CopyBBox1
+  xpos -935
+  ypos 352
+ }
+set Nfb885c00 [stack 0]
+ Dot {
+  name Dot45
+  xpos -901
+  ypos 402
+ }
+push $Nfb884c00
+push $Nfb885400
+ STMap {
+  inputs 2
+  uv rgb
+  name STMap4
+  xpos -771
+  ypos 289
+ }
+set Nfb8ae400 [stack 0]
+ Switch {
+  inputs 2
+  which {{1-TRIPLANAR_PM2.antialiasing}}
+  name Switch5
+  xpos -771
+  ypos 399
+ }
+ Remove {
+  operation keep
+  channels rgba
+  name Remove4
+  xpos -771
+  ypos 577
+ }
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2 white -1 -1 rgba.alpha 0 3"
+  name Shuffle9
+  xpos -771
+  ypos 614
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy3
+  xpos -771
+  ypos 670
+ }
+ Premult {
+  name Premult6
+  xpos -771
+  ypos 762
+ }
+ Merge2 {
+  inputs 2+1
+  name Merge13
+  xpos -754
+  ypos 2207
+ }
+ Merge2 {
+  inputs 2+1
+  name Merge14
+  xpos -754
+  ypos 2755
+ }
+ Switch {
+  inputs 2
+  which {{TRIPLANAR_PM2.output}}
+  name Switch8
+  xpos -754
+  ypos 2832
+ }
+ Dot {
+  name Dot23
+  xpos -720
+  ypos 2902
+ }
+ Output {
+  name Output1
+  xpos -754
+  ypos 3023
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote2
+  label "X,Y,Z texture..."
+  note_font_size 100
+  xpos -1980
+  ypos 563
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote5
+  label ZY
+  note_font_size 100
+  xpos 4100
+  ypos -174
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote4
+  label XZ
+  note_font_size 100
+  xpos 875
+  ypos -152
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote3
+  label XY
+  note_font_size 100
+  xpos -1208
+  ypos -241
+ }
+push $Nfa93c400
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.red 0 0 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.red 0 0 rgba.blue 0 2 rgba.red 0 0 rgba.alpha 0 3"
+  name Shuffle3
+  xpos 10163
+  ypos 1216
+ }
+push $Nfa9e5400
+ Merge2 {
+  inputs 2
+  operation difference
+  name Merge6
+  xpos 10507
+  ypos 1216
+ }
+push $Nfa93c000
+push $Nfa93c400
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.green 0 1 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.green 0 1 rgba.alpha 0 3"
+  name Shuffle4
+  xpos 10361
+  ypos 1059
+ }
+ Merge2 {
+  inputs 2
+  operation difference
+  name Merge9
+  xpos 11344
+  ypos 1059
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote8
+  label "BLEND operator"
+  note_font_size 100
+  xpos 7233
+  ypos 536
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  label NOISE
+  note_font_size 100
+  xpos 8632
+  ypos -533
+ }
+push $Nfa8c3800
+push $Nfa896c00
+ Merge2 {
+  inputs 2
+  operation min
+  name Merge17
+  xpos 10693
+  ypos -652
+ }
+ NoOp {
+  inputs 0
+  name FIT_LERP3
+  xpos 7055
+  ypos 1775
+  addUserKnob {20 User}
+  addUserKnob {7 input_num l "Input Number:"}
+  input_num {{parent.Expression4.bmain}}
+  addUserKnob {26 ""}
+  addUserKnob {7 orig_min l "Orig Min:"}
+  orig_min 0.001
+  addUserKnob {7 orig_max l "Orig Max" -STARTLINE}
+  orig_max 1
+  addUserKnob {26 ""}
+  addUserKnob {7 new_min l "New Min"}
+  new_min 0.2
+  addUserKnob {7 new_max l "New Max" -STARTLINE}
+  new_max 1
+  addUserKnob {26 ""}
+  addUserKnob {7 output l "Output number:"}
+  output {{"lerp(orig_min, new_min, orig_max, new_max, input_num)"}}
+ }
+ NoOp {
+  inputs 0
+  name FIT_LERP2
+  xpos 6378
+  ypos 1412
+  addUserKnob {20 User}
+  addUserKnob {7 input_num l "Input Number:"}
+  input_num {{parent.Expression4.bmain}}
+  addUserKnob {26 ""}
+  addUserKnob {7 orig_min l "Orig Min:"}
+  orig_min 0.001
+  addUserKnob {7 orig_max l "Orig Max" -STARTLINE}
+  orig_max 1
+  addUserKnob {26 ""}
+  addUserKnob {7 new_min l "New Min"}
+  new_min 0.2
+  addUserKnob {7 new_max l "New Max" -STARTLINE}
+  new_max 1
+  addUserKnob {26 ""}
+  addUserKnob {7 output l "Output number:"}
+  output {{"lerp(orig_min, new_min, orig_max, new_max, input_num)"}}
+ }
+ NoOp {
+  inputs 0
+  name FIT_LERP1
+  xpos 6132
+  ypos 1333
+  addUserKnob {20 User}
+  addUserKnob {7 input_num l "Input Number:"}
+  input_num {{parent.Expression4.bmain}}
+  addUserKnob {26 ""}
+  addUserKnob {7 orig_min l "Orig Min:"}
+  orig_min 0.001
+  addUserKnob {7 orig_max l "Orig Max" -STARTLINE}
+  orig_max 1
+  addUserKnob {26 ""}
+  addUserKnob {7 new_min l "New Min"}
+  new_min 0.2
+  addUserKnob {7 new_max l "New Max" -STARTLINE}
+  new_max 0.7
+  addUserKnob {26 ""}
+  addUserKnob {7 output l "Output number:"}
+  output {{"lerp(orig_min, new_min, orig_max, new_max, input_num)"}}
+  addUserKnob {26 ""}
+  addUserKnob {26 _1 l "" +STARTLINE T "Reconstruct by Peter Mercell "}
+ }
+ NoOp {
+  inputs 0
+  name CTRL1
+  xpos 9033
+  ypos -407
+  hide_input true
+  addUserKnob {20 User}
+  addUserKnob {7 GAMMA}
+  GAMMA 0.15
+ }
+push $Nfb8ae400
+push $Nfb885c00
+ Merge2 {
+  inputs 2
+  operation difference
+  name Merge28
+  xpos -554
+  ypos 315
+ }
+ Grade {
+  multiply 10
+  name Grade7
+  xpos -554
+  ypos 365
+ }
+push $Nfb801c00
+push $Nfb828400
+ Merge2 {
+  inputs 2
+  operation difference
+  name Merge29
+  xpos 1517
+  ypos 451
+ }
+ Grade {
+  multiply 10
+  name Grade6
+  xpos 1517
+  ypos 504
+ }
+push $Nfb7a1400
+push $Nfb7a0c00
+ Merge2 {
+  inputs 2
+  operation difference
+  name Merge30
+  xpos 4835
+  ypos 782
+ }
+ Grade {
+  multiply 10
+  name Grade2
+  xpos 4835
+  ypos 835
+ }
+push $Nfadcdc00
+ Viewer {
+  frame_range 1-100
+  translate {-1.672000051 -0.07999999821}
+  monitorOutNDISenderName "NukeX - TRIPLANAR_SCRIPT_v001 - Viewer1"
+  name Viewer1
+  xpos -771
+  ypos 786
+ }
+end_group
+Remove {
+ operation keep
+ channels rgb
+ name Remove1
+ xpos -366
+ ypos 504
+}
+Dot {
+ name Dot5
+ xpos -332
+ ypos 597
+}
+ColorWheel {
+ inputs 0
+ gamma 0.45
+ name ColorWheel1
+ xpos 326
+ ypos 569
+}
+push $Nfa7fac00
+Dot {
+ name Dot3
+ xpos -36
+ ypos 293
+}
+set Nfb9ab000 [stack 0]
+Shuffle2 {
+ fromInput1 {{0} B}
+ in1 P
+ fromInput2 {{0} B}
+ mappings "4 P.NX 0 0 rgba.red 0 0 P.NY 0 1 rgba.green 0 1 P.NZ 0 2 rgba.blue 0 2 P.x 0 3 rgba.alpha 0 3"
+ name Shuffle3
+ xpos -70
+ ypos 399
+}
+push $Nfb9ab000
+Dot {
+ name Dot4
+ xpos 253
+ ypos 293
+}
+Shuffle2 {
+ fromInput1 {{0} B}
+ in1 N
+ fromInput2 {{0} B}
+ mappings "4 N.red 0 0 rgba.red 0 0 N.green 0 1 rgba.green 0 1 N.blue 0 2 rgba.blue 0 2 N.alpha 0 3 rgba.alpha 0 3"
+ name Shuffle4
+ xpos 219
+ ypos 405
+}
+Group {
+ inputs 4
+ name CA_pScatter_V2
+ tile_color 0xae0ff
+ xpos 44
+ ypos 593
+ addUserKnob {20 User}
+ addUserKnob {41 format l "Input Format (Make sure it matches)" T format_controller.format}
+ addUserKnob {41 Texture_Falloff_Intensity T Controller.Texture_Falloff_Intensity}
+ addUserKnob {41 ScatterScale T Controller.ScatterScale}
+ addUserKnob {41 Density T Controller.Density}
+ addUserKnob {18 offsetTexture l "Offset Texture (X Y Z)" R 0 10}
+ offsetTexture {0 0 0}
+ addUserKnob {6 offsetTexture_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {7 pScaleControl l "pScale(Adjust if you don't see stuff)" R 0 10}
+ pScaleControl 3
+ addUserKnob {26 ""}
+ addUserKnob {7 triplanar_mix l "Triplanar Harshness" t "adjust if you need to blend the projections" +INVISIBLE}
+ triplanar_mix 1
+ addUserKnob {7 ClipOtimize l "Clip Optimize" t "Some projections get clipped, this can adjust the fade of that clipping area." +INVISIBLE}
+ ClipOtimize 0.5
+ addUserKnob {26 _1 l "" +STARTLINE +INVISIBLE}
+ addUserKnob {26 Description -STARTLINE T "Triplanar project a scattered texture from all directions.\n\nThis uses blinkscript, so it's best to precomp\nafter you're done.\n\n\n©Compositing Academy 2024\n\n11.10.2024 edited by Peter Mercell"}
+}
+ Reformat {
+  inputs 0
+  name format_controller
+  xpos -2148
+  ypos 353
+ }
+ Input {
+  inputs 0
+  name Position_Pass
+  xpos -1931
+  ypos -39
+  number 1
+ }
+ Grade {
+  multiply {{parent.Controller.pScale}}
+  black_clamp false
+  name Grade1
+  xpos -1931
+  ypos 32
+ }
+ Grade {
+  add {{parent.Controller.OffsetTexture.r} {parent.Controller.OffsetTexture.g} {parent.Controller.OffsetTexture.b} 0}
+  black_clamp false
+  name Grade2
+  xpos -1933
+  ypos 61
+ }
+ Dot {
+  name Dot37
+  xpos -1897
+  ypos 100
+ }
+set Nfb9f9400 [stack 0]
+ NoOp {
+  name Controller
+  xpos -2018
+  ypos 332
+  addUserKnob {20 User}
+  addUserKnob {7 Clipping_optimization l ClipOptimize}
+  Clipping_optimization {{parent.ClipOtimize}}
+  addUserKnob {18 OffsetTexture l "Offset Texture (X Y Z)" R 0 100}
+  OffsetTexture {{parent.offsetTexture.r} {parent.offsetTexture.g} {parent.offsetTexture.b}}
+  addUserKnob {6 OffsetTexture_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {7 Texture_Falloff_Intensity}
+  addUserKnob {7 ScatterScale}
+  ScatterScale 1
+  addUserKnob {7 Density R 0 5}
+  Density 0.8
+  addUserKnob {7 pScale R 0 100}
+  pScale {{parent.pScaleControl}}
+ }
+ Input {
+  inputs 0
+  name TRIPLANAR
+  xpos -1302
+  ypos 470
+  number 3
+ }
+ Dot {
+  name Dot2
+  xpos -1268
+  ypos 548
+ }
+set Nfba2a000 [stack 0]
+ Dot {
+  name Dot3
+  xpos -1054
+  ypos 548
+ }
+set Nfba2a400 [stack 0]
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.red 0 0 rgba.alpha 0 3 rgba.red 0 0 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.red 0 0 rgba.blue 0 2"
+  name Shuffle1
+  xpos -1088
+  ypos 931
+ }
+set Nfba2a800 [stack 0]
+ Input {
+  inputs 0
+  name Scatter_Image
+  xpos -1600
+  ypos -31
+  number 2
+ }
+ Dot {
+  name Dot43
+  xpos -1566
+  ypos 185
+ }
+set Nfba2b000 [stack 0]
+ Dot {
+  name Dot44
+  xpos -1692
+  ypos 185
+ }
+set Nfba2b400 [stack 0]
+ Dot {
+  name Dot45
+  xpos -1835
+  ypos 185
+ }
+ Input {
+  inputs 0
+  name Normals
+  xpos -1295
+  ypos -3
+ }
+ Crop {
+  box {0 0 {width} {height}}
+  name Crop1
+  xpos -1295
+  ypos 40
+ }
+ Dot {
+  name Dot36
+  xpos -1261
+  ypos 88
+ }
+set Nfba42400 [stack 0]
+push $Nfb9f9400
+ Group {
+  inputs 3
+  name CA_pScatter_oneaxis
+  xpos -1869
+  ypos 477
+  addUserKnob {20 TriplanarPositionBasedDotScatter}
+  addUserKnob {41 "Local GPU: " T BlinkScript6.gpuName}
+  addUserKnob {41 "Use GPU if Available" T BlinkScript6.useGPUIfAvailable}
+  addUserKnob {26 ""}
+  addUserKnob {41 "P Size" T "BlinkScript6.TriplanarPositionBasedDotScatter_P Size"}
+  addUserKnob {41 "Scatter Density" T "BlinkScript6.TriplanarPositionBasedDotScatter_Scatter Density"}
+  addUserKnob {41 "Scatter Scale" T "BlinkScript6.TriplanarPositionBasedDotScatter_Scatter Scale"}
+  addUserKnob {41 "Falloff Intensity" T "BlinkScript6.TriplanarPositionBasedDotScatter_Falloff Intensity"}
+  addUserKnob {41 "Blend Softness" T "BlinkScript6.TriplanarPositionBasedDotScatter_Blend Softness"}
+  addUserKnob {41 "Projection Axis (0=X, 1=Y, 2=Z)" T "BlinkScript6.TriplanarPositionBasedDotScatter_Projection Axis (0=X, 1=Y, 2=Z)"}
+  addUserKnob {26 ""}
+  addUserKnob {41 format T BlinkScript6.format}
+ }
+  Input {
+   inputs 0
+   name scatter_image
+   xpos -11161
+   ypos 12944
+   number 2
+  }
+  Input {
+   inputs 0
+   name normals
+   xpos -11161
+   ypos 12944
+   number 1
+  }
+  Input {
+   inputs 0
+   name position_pass
+   xpos -11161
+   ypos 12944
+  }
+  BlinkScript {
+   inputs 3
+   recompileCount 110
+   ProgramGroup 1
+   KernelDescription "3 \"TriplanarPositionBasedDotScatter\" iterate pixelWise 977f7b3343ecc6697c25d9bde6ded70708fd57def2812073bc65edbf39150749 4 \"position_pass\" Read Point \"normals\" Read Point \"scatter_image\" Read Random \"dst\" Write Point 6 \"P Size\" Float 3 AACAPwAAgD8AAIA/AAAAAA== \"Scatter Density\" Float 1 AAAgQQ== \"Scatter Scale\" Float 1 zczMPQ== \"Falloff Intensity\" Float 1 AACAPw== \"Blend Softness\" Float 1 AAAAPw== \"Projection Axis (0=X, 1=Y, 2=Z)\" Int 1 AgAAAA== 6 \"pSize\" 3 1 Default \"scatterDensity\" 1 1 Default \"scatterScale\" 1 1 Default \"falloffIntensity\" 1 1 Default \"blendSoftness\" 1 1 Default \"projectionAxis\" 1 1 Default 1 \"scatterResolution\" Float 2 1 AAAAAAAAAAA="
+   EncodedSource "1 6054 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"
+   rebuild ""
+   "TriplanarPositionBasedDotScatter_Scatter Density" {{parent.parent.Controller.Density}}
+   "TriplanarPositionBasedDotScatter_Scatter Scale" {{parent.parent.Controller.ScatterScale}}
+   "TriplanarPositionBasedDotScatter_Falloff Intensity" {{parent.parent.Controller.Texture_Falloff_Intensity}}
+   "TriplanarPositionBasedDotScatter_Blend Softness" {{parent.parent.Controller.Clipping_optimization}}
+   "TriplanarPositionBasedDotScatter_Projection Axis (0=X, 1=Y, 2=Z)" 0
+   protectKernelWhenPublishing true
+   format {{{parent.parent.format_controller.format}}}
+   specifiedFormat true
+   rebuild_finalise ""
+   name BlinkScript6
+   xpos -11161
+   ypos 12984
+  }
+  Output {
+   name Output1
+   xpos -11161
+   ypos 13084
+  }
+ end_group
+ Merge2 {
+  inputs 2
+  operation mask
+  name Merge34
+  xpos -1869
+  ypos 931
+ }
+push $Nfba2a400
+ Dot {
+  name Dot4
+  xpos -831
+  ypos 548
+ }
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.green 0 1 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.green 0 1 rgba.alpha 0 3"
+  name Shuffle2
+  xpos -865
+  ypos 811
+ }
+set Nfba72400 [stack 0]
+push $Nfba2b400
+push $Nfba42400
+push $Nfb9f9400
+ Group {
+  inputs 3
+  name CA_pScatter_oneaxis1
+  xpos -1726
+  ypos 449
+  addUserKnob {20 TriplanarPositionBasedDotScatter}
+  addUserKnob {41 "Local GPU: " T BlinkScript6.gpuName}
+  addUserKnob {41 "Use GPU if Available" T BlinkScript6.useGPUIfAvailable}
+  addUserKnob {26 ""}
+  addUserKnob {41 "P Size" T "BlinkScript6.TriplanarPositionBasedDotScatter_P Size"}
+  addUserKnob {41 "Scatter Density" T "BlinkScript6.TriplanarPositionBasedDotScatter_Scatter Density"}
+  addUserKnob {41 "Scatter Scale" T "BlinkScript6.TriplanarPositionBasedDotScatter_Scatter Scale"}
+  addUserKnob {41 "Falloff Intensity" T "BlinkScript6.TriplanarPositionBasedDotScatter_Falloff Intensity"}
+  addUserKnob {41 "Blend Softness" T "BlinkScript6.TriplanarPositionBasedDotScatter_Blend Softness"}
+  addUserKnob {41 "Projection Axis (0=X, 1=Y, 2=Z)" T "BlinkScript6.TriplanarPositionBasedDotScatter_Projection Axis (0=X, 1=Y, 2=Z)"}
+  addUserKnob {26 ""}
+  addUserKnob {41 format T BlinkScript6.format}
+ }
+  Input {
+   inputs 0
+   name scatter_image
+   xpos -11161
+   ypos 12944
+   number 2
+  }
+  Input {
+   inputs 0
+   name normals
+   xpos -11161
+   ypos 12944
+   number 1
+  }
+  Input {
+   inputs 0
+   name position_pass
+   xpos -11161
+   ypos 12944
+  }
+  BlinkScript {
+   inputs 3
+   recompileCount 110
+   ProgramGroup 1
+   KernelDescription "3 \"TriplanarPositionBasedDotScatter\" iterate pixelWise 977f7b3343ecc6697c25d9bde6ded70708fd57def2812073bc65edbf39150749 4 \"position_pass\" Read Point \"normals\" Read Point \"scatter_image\" Read Random \"dst\" Write Point 6 \"P Size\" Float 3 AACAPwAAgD8AAIA/AAAAAA== \"Scatter Density\" Float 1 AAAgQQ== \"Scatter Scale\" Float 1 zczMPQ== \"Falloff Intensity\" Float 1 AACAPw== \"Blend Softness\" Float 1 AAAAPw== \"Projection Axis (0=X, 1=Y, 2=Z)\" Int 1 AgAAAA== 6 \"pSize\" 3 1 Default \"scatterDensity\" 1 1 Default \"scatterScale\" 1 1 Default \"falloffIntensity\" 1 1 Default \"blendSoftness\" 1 1 Default \"projectionAxis\" 1 1 Default 1 \"scatterResolution\" Float 2 1 AAAAAAAAAAA="
+   EncodedSource "1 6054 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"
+   rebuild ""
+   "TriplanarPositionBasedDotScatter_Scatter Density" {{parent.parent.Controller.Density}}
+   "TriplanarPositionBasedDotScatter_Scatter Scale" {{parent.parent.Controller.ScatterScale}}
+   "TriplanarPositionBasedDotScatter_Falloff Intensity" {{parent.parent.Controller.Texture_Falloff_Intensity}}
+   "TriplanarPositionBasedDotScatter_Blend Softness" {{parent.parent.Controller.Clipping_optimization}}
+   "TriplanarPositionBasedDotScatter_Projection Axis (0=X, 1=Y, 2=Z)" 1
+   protectKernelWhenPublishing true
+   format {{{parent.parent.format_controller.format}}}
+   specifiedFormat true
+   rebuild_finalise ""
+   name BlinkScript6
+   xpos -11161
+   ypos 12984
+  }
+  Output {
+   name Output1
+   xpos -11161
+   ypos 13084
+  }
+ end_group
+ Merge2 {
+  inputs 2
+  operation mask
+  name Merge35
+  xpos -1726
+  ypos 811
+ }
+push $Nfba2a800
+push $Nfba72400
+ ChannelMerge {
+  inputs 2
+  name ChannelMerge1
+  xpos -1192
+  ypos 678
+ }
+push $Nfba2a000
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.blue 0 2 rgba.blue 0 2 rgba.blue 0 2 rgba.alpha 0 3 rgba.blue 0 2 rgba.green 0 1 rgba.blue 0 2 rgba.red 0 0"
+  name Shuffle3
+  xpos -1302
+  ypos 604
+ }
+ ChannelMerge {
+  inputs 2
+  operation stencil
+  name ChannelMerge2
+  xpos -1302
+  ypos 678
+ }
+ Shuffle2 {
+  fromInput1 {{0} B}
+  fromInput2 {{0} B}
+  mappings "4 rgba.alpha 0 3 rgba.alpha 0 3 rgba.alpha 0 3 rgba.red 0 0 rgba.alpha 0 3 rgba.green 0 1 rgba.alpha 0 3 rgba.blue 0 2"
+  name Shuffle4
+  xpos -1302
+  ypos 720
+ }
+push $Nfba2b000
+push $Nfba42400
+push $Nfb9f9400
+ Group {
+  inputs 3
+  name CA_pScatter_oneaxis2
+  xpos -1606
+  ypos 443
+  addUserKnob {20 TriplanarPositionBasedDotScatter}
+  addUserKnob {41 "Local GPU: " T BlinkScript6.gpuName}
+  addUserKnob {41 "Use GPU if Available" T BlinkScript6.useGPUIfAvailable}
+  addUserKnob {26 ""}
+  addUserKnob {41 "P Size" T "BlinkScript6.TriplanarPositionBasedDotScatter_P Size"}
+  addUserKnob {41 "Scatter Density" T "BlinkScript6.TriplanarPositionBasedDotScatter_Scatter Density"}
+  addUserKnob {41 "Scatter Scale" T "BlinkScript6.TriplanarPositionBasedDotScatter_Scatter Scale"}
+  addUserKnob {41 "Falloff Intensity" T "BlinkScript6.TriplanarPositionBasedDotScatter_Falloff Intensity"}
+  addUserKnob {41 "Blend Softness" T "BlinkScript6.TriplanarPositionBasedDotScatter_Blend Softness"}
+  addUserKnob {41 "Projection Axis (0=X, 1=Y, 2=Z)" T "BlinkScript6.TriplanarPositionBasedDotScatter_Projection Axis (0=X, 1=Y, 2=Z)"}
+  addUserKnob {26 ""}
+  addUserKnob {41 format T BlinkScript6.format}
+ }
+  Input {
+   inputs 0
+   name scatter_image
+   xpos -11161
+   ypos 12944
+   number 2
+  }
+  Input {
+   inputs 0
+   name normals
+   xpos -11161
+   ypos 12944
+   number 1
+  }
+  Input {
+   inputs 0
+   name position_pass
+   xpos -11161
+   ypos 12944
+  }
+  BlinkScript {
+   inputs 3
+   recompileCount 110
+   ProgramGroup 1
+   KernelDescription "3 \"TriplanarPositionBasedDotScatter\" iterate pixelWise 977f7b3343ecc6697c25d9bde6ded70708fd57def2812073bc65edbf39150749 4 \"position_pass\" Read Point \"normals\" Read Point \"scatter_image\" Read Random \"dst\" Write Point 6 \"P Size\" Float 3 AACAPwAAgD8AAIA/AAAAAA== \"Scatter Density\" Float 1 AAAgQQ== \"Scatter Scale\" Float 1 zczMPQ== \"Falloff Intensity\" Float 1 AACAPw== \"Blend Softness\" Float 1 AAAAPw== \"Projection Axis (0=X, 1=Y, 2=Z)\" Int 1 AgAAAA== 6 \"pSize\" 3 1 Default \"scatterDensity\" 1 1 Default \"scatterScale\" 1 1 Default \"falloffIntensity\" 1 1 Default \"blendSoftness\" 1 1 Default \"projectionAxis\" 1 1 Default 1 \"scatterResolution\" Float 2 1 AAAAAAAAAAA="
+   EncodedSource "1 6054 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"
+   rebuild ""
+   "TriplanarPositionBasedDotScatter_Scatter Density" {{parent.parent.Controller.Density}}
+   "TriplanarPositionBasedDotScatter_Scatter Scale" {{parent.parent.Controller.ScatterScale}}
+   "TriplanarPositionBasedDotScatter_Falloff Intensity" {{parent.parent.Controller.Texture_Falloff_Intensity}}
+   "TriplanarPositionBasedDotScatter_Blend Softness" {{parent.parent.Controller.Clipping_optimization}}
+   protectKernelWhenPublishing true
+   format {{{parent.parent.format_controller.format}}}
+   specifiedFormat true
+   rebuild_finalise ""
+   name BlinkScript6
+   xpos -11161
+   ypos 12984
+  }
+  Output {
+   name Output1
+   xpos -11161
+   ypos 13084
+  }
+ end_group
+ Merge2 {
+  inputs 2
+  operation multiply
+  name Merge1
+  xpos -1606
+  ypos 720
+ }
+ Merge2 {
+  inputs 2
+  name Merge37
+  xpos -1606
+  ypos 1029
+ }
+ Merge2 {
+  inputs 2
+  name Merge38
+  xpos -1606
+  ypos 1118
+ }
+set Nfbad8c00 [stack 0]
+ Output {
+  name Output1
+  xpos -1606
+  ypos 1218
+ }
+ Constant {
+  inputs 0
+  channels rgb
+  color {0 0 1 0}
+  color_panelDropped true
+  name Constant10
+  xpos -786
+  ypos 407
+ }
+ Constant {
+  inputs 0
+  channels rgb
+  color {1 0 0 0}
+  color_panelDropped true
+  name Constant8
+  xpos -1036
+  ypos 208
+ }
+ Constant {
+  inputs 0
+  channels rgb
+  color {0 1 0 0}
+  color_panelDropped true
+  name Constant9
+  xpos -923
+  ypos 292
+ }
+push $Nfba42400
+push $Nfb9f9400
+ Dot {
+  name Dot38
+  xpos -1782
+  ypos 100
+ }
+ Dot {
+  name Dot39
+  xpos -1655
+  ypos 100
+ }
+ Dot {
+  name Dot40
+  xpos -1428
+  ypos 103
+ }
+ Dot {
+  name Dot41
+  xpos -1419
+  ypos 387
+ }
+ Group {
+  inputs 5
+  name CA_TriplanarProjection
+  tile_color 0x3e1eefff
+  xpos -1302
+  ypos 384
+  addUserKnob {20 TriplanarProjection}
+  addUserKnob {41 "Local GPU: " T BlinkScript6.gpuName}
+  addUserKnob {41 "Use GPU if Available" T BlinkScript6.useGPUIfAvailable}
+  addUserKnob {26 ""}
+  addUserKnob {41 "Position Scale" T "BlinkScript6.TriplanarProjection_Position Scale"}
+  addUserKnob {41 "UV Scale" T "BlinkScript6.TriplanarProjection_UV Scale"}
+  addUserKnob {41 "UV Offset" T "BlinkScript6.TriplanarProjection_UV Offset"}
+  addUserKnob {26 ""}
+  addUserKnob {41 format T BlinkScript6.format}
+ }
+  Input {
+   inputs 0
+   name image_z
+   xpos -8292
+   ypos 13346
+   number 4
+  }
+  Input {
+   inputs 0
+   name image_y
+   xpos -8292
+   ypos 13346
+   number 3
+  }
+  Input {
+   inputs 0
+   name image_x
+   xpos -8292
+   ypos 13346
+   number 2
+  }
+  Input {
+   inputs 0
+   name normal_pass
+   xpos -8292
+   ypos 13346
+   number 1
+  }
+  Input {
+   inputs 0
+   name position_pass
+   xpos -8292
+   ypos 13346
+  }
+  BlinkScript {
+   inputs 5
+   recompileCount 126
+   ProgramGroup 1
+   KernelDescription "3 \"TriplanarProjection\" iterate pixelWise e9e1da71ed9f48fbe51355c41f13e57cfe4b7cd4a0ec983c4842b1b50bf6bfd6 6 \"position_pass\" Read Point \"normal_pass\" Read Point \"image_x\" Read Random \"image_y\" Read Random \"image_z\" Read Random \"dst\" Write Point 3 \"Position Scale\" Float 3 AACAPwAAgD8AAIA/AAAAAA== \"UV Scale\" Float 1 AACAPw== \"UV Offset\" Float 3 AAAAAAAAAAAAAAAAAAAAAA== 3 \"pSize\" 3 1 Default \"scale\" 1 1 Default \"uvOffset\" 3 1 Default 0"
+   EncodedSource "1 3605 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"
+   rebuild ""
+   "TriplanarProjection_UV Scale" 0.52
+   protectKernelWhenPublishing true
+   format {{{parent.parent.format_controller.format}}}
+   specifiedFormat true
+   rebuild_finalise ""
+   name BlinkScript6
+   xpos -8292
+   ypos 13386
+  }
+  Output {
+   name Output1
+   xpos -8292
+   ypos 13486
+  }
+ end_group
+ Grade {
+  blackpoint 0.32
+  whitepoint 0.36
+  mix {{parent.triplanar_mix}}
+  name TriPlanar_Mix
+  xpos -1302
+  ypos 434
+ }
+push $Nfbad8c00
+ Viewer {
+  frame_range 100-100
+  colour_sample_bbox {0.6822916865 -0.2635416687 0.6833333373 -0.2624999881}
+  monitorOutNDISenderName "NukeX - TRIPLANAR_SCRIPT_v001 - Viewer1"
+  name Viewer1
+  xpos -1137
+  ypos 1242
+ }
+end_group
+Dot {
+ name Dot6
+ xpos 78
+ ypos 707
+}
+Viewer {
+ frame_range 1-100
+ monitorOutNDISenderName "NukeX - untitled - Viewer1"
+ monitorOutOutputTransform rec709
+ name Viewer1
+ selected true
+ xpos 44
+ ypos 725
+}
